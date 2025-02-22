@@ -1,0 +1,71 @@
+#######################################
+# Syntax Coloring Map For NonBlockingModbusMaster
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+NonBlockingModbusMaster	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+lowWord	KEYWORD2
+highWord	KEYWORD2
+LONG	KEYWORD2
+
+printHex	KEYWORD2
+make_32bit_from_2x16bit_words	KEYWORD2
+
+initialize	KEYWORD2
+justFinished	KEYWORD2
+getResponseBuffer	KEYWORD2
+getResponseBufferLength	KEYWORD2
+clearResponseBuffer	KEYWORD2
+setTransmitBuffer	KEYWORD2
+clearTransmitBuffer	KEYWORD2
+
+isIdle	KEYWORD2
+isProcessing	KEYWORD2
+getError	KEYWORD2
+getSlaveId	KEYWORD2
+getAddress	KEYWORD2
+getQty	KEYWORD2
+getFunction	KEYWORD2
+oneTimeDelay	KEYWORD2
+retry	KEYWORD2
+
+readCoils	KEYWORD2
+readDiscreteInputs	KEYWORD2
+readHoldingRegisters	KEYWORD2
+readInputRegisters	KEYWORD2
+writeSingleCoil	KEYWORD2
+writeSingleRegister	KEYWORD2
+writeMultipleCoils	KEYWORD2
+writeMultipleRegisters	KEYWORD2
+maskWriteRegister	KEYWORD2
+readWriteMultipleRegisters	KEYWORD2
+
+sendBit	KEYWORD2
+send	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+ku8MBIllegalFunction	LITERAL1
+ku8MBIllegalDataAddress	LITERAL1
+ku8MBIllegalDataValue	LITERAL1
+ku8MBSlaveDeviceFailure	LITERAL1
+
+ku8MBSuccess	LITERAL1
+ku8MBInvalidSlaveID	LITERAL1
+ku8MBInvalidFunction	LITERAL1
+ku8MBResponseTimedOut	LITERAL1
+ku8MBInvalidCRC	LITERAL1
+ku8MBDataToLong	LITERAL1
+ku8MBResponseToShort	LITERAL1
+ku8MBStateError	LITERAL1
+
