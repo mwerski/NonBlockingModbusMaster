@@ -60,7 +60,7 @@ uint32_t make_32bit_from_2x16bit_words(uint16_t hi_word, uint16_t lo_word) {
   return bits16_32.word_32bit;
 }
 
-void NonBlockingModbusMaster::printHex(uint8_t i, Stream& out) {
+void NonBlockingModbusMaster::printHex(uint8_t i, Print& out) {
   out.print("0x");
   if (i < 16) {
     out.print("0");
@@ -68,7 +68,7 @@ void NonBlockingModbusMaster::printHex(uint8_t i, Stream& out) {
   out.print(i, HEX);
   out.print(" ");
 }
-void NonBlockingModbusMaster::printHex(uint8_t i, Stream* outPtr) {
+void NonBlockingModbusMaster::printHex(uint8_t i, Print* outPtr) {
   if (!outPtr) {
     return;
   }
@@ -284,14 +284,15 @@ void NonBlockingModbusMaster::clearTransmitBuffer() {
   }
 }
 
-
+// returns true if retry started
 bool NonBlockingModbusMaster::retry() {
   if (!init(_u8MBSlave, resultHandler)) {
     return false;
   }
   // else
   NonBlockingModbusMasterTransaction(u8MBFunction); // rerun is save args
-  // NOTE this has only been check for readInputRegisters
+  // NOTE this has only been checked for readInputRegisters
+  return true;
 }
 
 /**

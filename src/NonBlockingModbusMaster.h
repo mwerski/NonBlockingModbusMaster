@@ -86,6 +86,7 @@ class NonBlockingModbusMaster {
     bool isIdle(); // return true if IDLE
     bool isProcessing(); // return true when not IDLE
     uint8_t getError(); // 0 is OK else error
+    bool retry(); // returns true if retry started, else false, some other command still running, reruns the last cmd with same args, used for timeout reties
     uint16_t getResponseBuffer(uint8_t idx); // get 16bit word at this index in response buffer
     void     clearResponseBuffer();
     uint16_t getResponseBufferLength(); // number of values in response buffer is 0 on error
@@ -94,8 +95,8 @@ class NonBlockingModbusMaster {
     uint16_t getQty();
     uint8_t getFunction();
     void oneTimeDelay(uint16_t delay_ms); // adds this delay before next cmd is sent, but only the next one
-    void printHex(uint8_t i, Stream& out); //prints 8bit int as hex prepending 0x and padding with leading zero if necessary
-    void printHex(uint8_t i, Stream* outPtr);
+    void printHex(uint8_t i, Print& out); //prints 8bit int as hex prepending 0x and padding with leading zero if necessary
+    void printHex(uint8_t i, Print* outPtr);
 
     // Modbus exception codes
     /**
@@ -224,8 +225,6 @@ class NonBlockingModbusMaster {
     */
     static const uint8_t ku8MBStateError               = 0xE6;
 
-
-    bool retry(); // reruns the last cmd with same args, use for timeout reties
 
     bool readCoils(uint8_t slaveId, uint16_t address, uint16_t qty, ResultHandler handlerFn = NULL);
     bool readDiscreteInputs(uint8_t slaveId, uint16_t address, uint16_t qty, ResultHandler handlerFn = NULL);
