@@ -98,6 +98,8 @@ NonBlockingModbusMaster::NonBlockingModbusMaster(void) {
   ku16MBResponseTimeout = 2000; // default value
   modbusState = MB_IDLE;
   _oneTimeDelay_ms = 0;
+  _preTransmission = 0;
+  _postTransmission = 0;
 }
 
 /**
@@ -217,6 +219,35 @@ uint16_t NonBlockingModbusMaster::receive(void) {
 // number of values in response buffer
 uint16_t NonBlockingModbusMaster::getResponseBufferLength() {
   return _u8ResponseBufferLength;
+}
+
+/**
+Set pre-transmission callback function.
+
+This function gets called just before a Modbus message is sent over serial.
+Typical usage of this callback is to enable an RS485 transceiver's
+Driver Enable pin, and optionally disable its Receiver Enable pin.
+
+*/
+void NonBlockingModbusMaster::preTransmission(void (*preTransmission)())
+{
+  _preTransmission = preTransmission;
+}
+
+/**
+Set post-transmission callback function.
+
+This function gets called after a Modbus message has finished sending
+(i.e. after all data has been physically transmitted onto the serial
+bus).
+
+Typical usage of this callback is to enable an RS485 transceiver's
+Receiver Enable pin, and disable its Driver Enable pin.
+
+*/
+void NonBlockingModbusMaster::postTransmission(void (*postTransmission)())
+{
+  _postTransmission = postTransmission;
 }
 
 /**
@@ -786,11 +817,19 @@ bool NonBlockingModbusMaster::justFinished() {
     if (modbusDebugPtr) {
       modbusDebugPtr->print("Send Cmd : ");
     }
+    if (_preTransmission)
+    {
+      _preTransmission();
+    }
     for (i = 0; i < u8ModbusADUSize; i++) {
       _serial->write(u8ModbusADU[i]);
       if (modbusDebugPtr) {
         printHex(u8ModbusADU[i],modbusDebugPtr);
       }
+    }
+    if (_postTransmission)
+    {
+      _postTransmission();
     }
     if (modbusDebugPtr) {
       modbusDebugPtr->println();
