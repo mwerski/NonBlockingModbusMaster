@@ -97,6 +97,8 @@ class NonBlockingModbusMaster {
     void oneTimeDelay(uint16_t delay_ms); // adds this delay before next cmd is sent, but only the next one
     void printHex(uint8_t i, Print& out); //prints 8bit int as hex prepending 0x and padding with leading zero if necessary
     void printHex(uint8_t i, Print* outPtr);
+    void preTransmission(void (*)());
+    void postTransmission(void (*)());
 
     // Modbus exception codes
     /**
@@ -312,5 +314,10 @@ class NonBlockingModbusMaster {
 
     // callback to handle results
     ResultHandler resultHandler;  //void (*resultHandler)(NonBlockingModbusMaster &mb);
+
+    // preTransmission callback function; gets called before writing a Modbus message
+    void (*_preTransmission)();
+    // postTransmission callback function; gets called after a Modbus message has been sent
+    void (*_postTransmission)();
 };
 #endif
